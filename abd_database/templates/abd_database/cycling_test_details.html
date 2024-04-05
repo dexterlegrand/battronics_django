@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load detail_tags %}
+{% block content %}
+<div class="container">
+    <h1>Cycling Test Details: {{cycling_test.id}}</h1>
+    <div class="row mt-1 mb-1">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header pt-1 pb-1">
+                    Battery
+                </div>
+                <div class="card-body pt-1 pb-1">
+                    <p class="card-text"><a href="{% url 'abd_db:battery_detail' cycling_test.cellTest.battery.id %}">{{cycling_test.cellTest.battery}}</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2 mb-1">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header pt-1 pb-1">
+                    Date
+                </div>
+                <div class="card-body pt-1 pb-1">
+                    <p class="card-text">{{cycling_test.cellTest.date}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header pt-1 pb-1">
+                    Equipment
+                </div>
+                <div class="card-body pt-1 pb-1">
+                    <p class="card-text">{{cycling_test.cellTest.equipment}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header pt-1 pb-1">
+                    Comments
+                </div>
+                <div class="card-body pt-1 pb-1">
+                    <p class="card-text">{{cycling_test.comments}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2 mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header pt-1 pb-1" data-toggle="collapse" href="#collapseErrorString" aria-expanded="false" aria-controls="collapseErrorString">
+                    Errors (click to collapse)
+                </div>
+                <div class="card-body pt-1 pb-1 collapse" id="collapseErrorString">
+                    <p class="card-text">{{cycling_test.cellTest.error_string}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h2>Dataset</h2>
+    <div class="row mt-2 mb-1">
+        <div class="col-3">
+            <div class="card">
+                <div class="card-header pt-1 pb-1">
+                    Dataset name
+                </div>
+                <div class="card-body pt-1 pb-1">
+                    <p class="card-text">{{cycling_test.cellTest.dataset.name}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-5">
+            <div class="card">
+                <div class="card-header pt-1 pb-1">
+                    URL
+                </div>
+                <div class="card-body pt-1 pb-1">
+                    <p class="card-text"><a href="{{cycling_test.cellTest.dataset.url}}">{{cycling_test.cellTest.dataset.url}}</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header pt-1 pb-1">
+                    DOI
+                </div>
+                <div class="card-body pt-1 pb-1">
+                    <p class="card-text"><a href="{{cycling_test.cellTest.dataset.doi}}">{{cycling_test.cellTest.dataset.doi}}</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2 mb-4">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header pt-1 pb-1">
+                    License
+                </div>
+                <div class="card-body pt-1 pb-1">
+                    <p class="card-text">{{cycling_test.cellTest.dataset.license}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header pt-1 pb-1">
+                    Authors
+                </div>
+                <div class="card-body pt-1 pb-1">
+                    <p class="card-text">{{cycling_test.cellTest.dataset.authors}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header pt-1 pb-1">
+                    Organisation
+                </div>
+                <div class="card-body pt-1 pb-1">
+                    <p class="card-text">{{cycling_test.cellTest.dataset.organisation}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h2>Plots</h2>
+    {% for agg in agg_data %}
+    <p>{{agg}}</p>
+    {% endfor %}
+</div>
+{% endblock %}

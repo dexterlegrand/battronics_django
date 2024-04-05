@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load queue_tags %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1> Re-Upload file </h1>
+            <p> Select one file in correct structure to upload</p>
+            <form id="form-container" action="job_queue/reupload/{{file_id}}" enctype="multipart/form-data" method="POST">
+                  {% csrf_token %}
+                    {{form|crispy}}
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-light" data-bs-dismiss="modal">Dismiss</button>
+                      <button id="submit_button" type="submit" class="btn btn-primary">Save</button>
+                  </div>
+              </form>
+            <p id="selected_size"></p>
+            <p id="error_message"></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+<script type="text/javascript">
+    const input = document.getElementById('id_file_field');
+    const extractor = document.getElementById('id_extractor');
+    $(document).ready(function() {
+        input.removeAttribute('multiple')
+        $('#div_id_file_field').hide()
+    });
+
+
+    extractor.addEventListener('change', function(e){
+        let selectedExtractor = e.target.value;
+
+        if (selectedExtractor != "Unknown") {
+            switch (selectedExtractor) {
+                case "CsvExtractor":
+                    $(input).attr('accept', '.csv')
+                    break;
+                case "NdaExtractor":
+                    break;
+                case "BiologicExtractor":
+                    break;
+                case "GamryExtractor":
+                    break;
+                default:
+                    // TODO: throw error or inform user about error
+            }
+        }
+        $('#div_id_file_field').show();
+    })
+
+    input.addEventListener('change', (event) => {
+        var size = 0;
+        for (const file of event.target.files) {
+            size += file.size
+        }
+        $("#selected_size").text(parseInt(size/1000/1000).toLocaleString() + "/" + ({% get_max_batch_size %}).toLocaleString() + "mb selected");
+        if ((size/1000/1000) > {% get_max_batch_size %}){
+            $("#error_message").text("Selected files too large").css('color', 'red');
+            $('#submit_button').attr("disabled", true);
+        }else{
+            $("#error_message").text("");
+            $('#submit_button').attr("disabled", false);
+        }
+    });
+</script>
+{% endblock %}

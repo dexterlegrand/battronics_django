@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-center">
+    {% if form.errors %}
+    <div class="alert alert-warning" role="alert">
+        Your username and password didn't match. Please try again.
+    </div>
+    {% endif %}
+
+    {% if next %}
+    {% if user.is_authenticated %}
+    <p>Your account doesn't have access to this page. To proceed,
+        please login with an account that has access.</p>
+    {% else %}
+    <p>Please login to see this page.</p>
+    {% endif %}
+    {% endif %}
+</div>
+<div class="d-flex justify-content-center">
+    <form action="{% url 'abd_management:login' %}" method="post">
+        {% csrf_token %}
+        <div class="form-outline mb-4">
+            {{ form.username.errors }}
+            <label for="{{ form.username.id_for_label}}"> {{ form.username.label_tag }} </label>
+            {{ form.username }}
+        </div>
+        <div class="form-outline mb-4">
+            {{ form.password.errors }}
+            <label for="{{ form.password.id_for_label}}"> {{ form.password.label_tag }} </label>
+            {{ form.password }}
+        </div>
+
+        <button class="btn btn-primary" type="submit">Login</button>
+        <input name="next" type="hidden" value="{{ next }}">
+    </form>
+</div>
+<div class="d-flex justify-content-center">
+    {# Assumes you setup the password_reset view in your URLconf #}
+    <p><a href="{% url 'abd_management:password_reset' %}">Lost password?</a></p>
+</div>
+{% endblock %}

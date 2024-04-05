@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load detail_tags %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <h1>EIS Test Details: <a href="{% url 'abd_db:battery_detail' eis_test.cellTest.battery.id %}">{{eis_test.id}}</a></h1>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header pt-1 pb-1">
+                    Battery
+                </div>
+                <div class="card-body pt-1 pb-1">
+                    <p class="card-text">{{eis_test.cellTest.battery}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header pt-1 pb-1">
+                    Cell Test
+                </div>
+                <div class="card-body pt-1 pb-1">
+                    <p class="card-text">{{eis_test.cellTest.id}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header pt-1 pb-1">
+                    Date
+                </div>
+                <div class="card-body pt-1 pb-1">
+                    <p class="card-text">{{eis_test.cellTest.date}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header pt-1 pb-1">
+                    Equipment
+                </div>
+                <div class="card-body pt-1 pb-1">
+                    <p class="card-text">{{eis_test.cellTest.equipment}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header pt-1 pb-1">
+                    Author
+                </div>
+                <div class="card-body pt-1 pb-1">
+                    <p class="card-text">{{eis_test.cellTest.author}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header pt-1 pb-1">
+                    Voltage
+                </div>
+                <div class="card-body pt-1 pb-1">
+                    <p class="card-text">{{eis_test.voltage}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header pt-1 pb-1">
+                    Temperature
+                </div>
+                <div class="card-body pt-1 pb-1">
+                    <p class="card-text">{{eis_test.temperature}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2 mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header pt-1 pb-1">
+                    Comments
+                </div>
+                <div class="card-body pt-1 pb-1">
+                    <p class="card-text">{{eis_test.comments}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p>{{eis_test.eis_raw_data.all}}</p>
+</div>
+{% endblock %}

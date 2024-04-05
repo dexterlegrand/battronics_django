@@ -1,0 +1,309 @@
+[
+	{
+		"model": "abd_database.supplier",
+		"fields": {
+			"name": "UNKNOWN",
+			"city": "UNKNOWN",
+			"country": "UNKNOWN"
+		}
+	},
+	{
+		"model": "abd_database.cylinderformat",
+		"fields": {
+			"name": "UNKNOWN",
+			"format_type": "cylindrical",
+			"height": null,
+			"diameter": 0
+		}
+	},
+	{
+		"model": "abd_database.cylinderformat",
+		"fields": {
+			"name": "18650",
+			"format_type": "cylindrical",
+			"height": 650,
+			"diameter": 18
+		}
+	},
+	{
+		"model": "abd_database.cylinderformat",
+		"fields": {
+			"name": "21700",
+			"format_type": "cylindrical",
+			"height": 700,
+			"diameter": 21
+		}
+	},
+	{
+		"model": "abd_database.cylinderformat",
+		"fields": {
+			"name": "46800",
+			"format_type": "cylindrical",
+			"height": 800,
+			"diameter": 46
+		}
+	},
+	{
+		"model": "abd_database.prismaformat",
+		"fields": {
+			"name": "UNKNOWN",
+			"format_type": "prismatic",
+			"height": null,
+			"width": null,
+			"length": null
+		}
+	},
+	{
+		"model": "abd_database.prismaformat",
+		"fields": {
+			"name": "UNKNOWN",
+			"format_type": "pouch",
+			"height": null,
+			"width": null,
+			"length": null
+		}
+	},
+	{
+		"model": "abd_database.prismaformat",
+		"fields": {
+			"name": "UNKNOWN",
+			"format_type": "blade",
+			"height": null,
+			"width": null,
+			"length": null
+		}
+	},
+	{
+		"model": "abd_database.prismaformat",
+		"fields": {
+			"name": "BEV1",
+			"format_type": "prismatic",
+			"height": 115,
+			"width": 32,
+			"length": 173
+		}
+	},
+	{
+		"model": "abd_database.prismaformat",
+		"fields": {
+			"name": "BEV2",
+			"format_type": "prismatic",
+			"height": 115,
+			"width": 45,
+			"length": 173
+		}
+	},
+	{
+		"model": "abd_database.prismaformat",
+		"fields": {
+			"name": "PHEV1",
+			"format_type": "prismatic",
+			"height": 21,
+			"width": 85,
+			"length": 173
+		}
+	},
+	{
+		"model": "abd_database.prismaformat",
+		"fields": {
+			"name": "PHEV2",
+			"format_type": "prismatic",
+			"height": 26.5,
+			"width": 91,
+			"length": 148
+		}
+	},
+	{
+		"model": "abd_database.prismaformat",
+		"fields": {
+			"name": "HEV",
+			"format_type": "prismatic",
+			"height": 12.5,
+			"width": 85,
+			"length": 120
+		}
+	},
+	{
+		"model": "abd_database.prismaformat",
+		"fields": {
+			"name": "CX2",
+			"format_type": "prismatic",
+			"height": null,
+			"width": null,
+			"length": null
+		}
+	},
+	{
+		"model": "abd_database.prismaformat",
+		"fields": {
+			"name": "905*118*13.5",
+			"format_type": "blade",
+			"height": 13.5,
+			"width": 118,
+			"length": 905
+		}
+	},
+	{
+		"model": "abd_database.prismaformat",
+		"fields": {
+			"name": "574*118*13.5",
+			"format_type": "blade",
+			"height": 13.5,
+			"width": 118,
+			"length": 574
+		}
+	},
+	{
+		"model": "abd_database.prismaformat",
+		"fields": {
+			"name": "58*33*5",
+			"format_type": "pouch",
+			"height": 5,
+			"width": 33,
+			"length": 58
+		}
+	},
+	{
+		"model": "abd_database.prismaformat",
+		"fields": {
+			"name": "3*85*50",
+			"format_type": "pouch",
+			"height": 50,
+			"width": 85,
+			"length": 3
+		}
+	},
+	{
+		"model": "abd_database.chemicaltype",
+		"fields": {
+			"shortname": "NCM",
+			"synonyms": ["NMC", "INR"],
+			"name": "Lithium nickel manganese cobalt oxide"
+		}
+	},
+	{
+		"model": "abd_database.chemicaltype",
+		"fields": {
+			"shortname": "NCA",
+			"synonyms": ["NCR"],
+			"name": "Lithium nickel cobalt aluminium oxides"
+		}
+	},
+	{
+		"model": "abd_database.chemicaltype",
+		"fields": {
+			"shortname": "NCMA",
+			"synonyms": null,
+			"name": "nickel cobalt manganese aluminum"
+		}
+	},
+	{
+		"model": "abd_database.chemicaltype",
+		"fields": {
+			"shortname": "NCx",
+			"synonyms": null,
+			"name": null
+		}
+	},
+	{
+		"model": "abd_database.chemicaltype",
+		"fields": {
+			"shortname": "LFP",
+			"synonyms": ["IFR"],
+			"name": "Lithium iron phosphate"
+		}
+	},
+	{
+		"model": "abd_database.chemicaltype",
+		"fields": {
+			"shortname": "LFMP",
+			"synonyms": null,
+			"name": null
+		}
+	},
+	{
+		"model": "abd_database.chemicaltype",
+		"fields": {
+			"shortname": "LCO",
+			"synonyms": ["ICR"],
+			"name": "Lithium cobalt oxide"
+		}
+	},
+	{
+		"model": "abd_database.chemicaltype",
+		"fields": {
+			"shortname": "LMO",
+			"synonyms": ["IMR"],
+			"name": "Lithium manganese oxide"
+		}
+	},
+	{
+		"model": "abd_database.chemicaltype",
+		"fields": {
+			"shortname": "LNMO",
+			"synonyms": null,
+			"name": null
+		}
+	},
+	{
+		"model": "abd_database.chemicaltype",
+		"fields": {
+			"shortname": "NCM:LCO",
+			"synonyms": ["NCM:ICR", "NMC:LCO", "NMC:ICR", "INR:LCO", "INR:ICR"],
+			"name": null
+		}
+	},
+	{
+		"model": "abd_database.chemicaltype",
+		"fields": {
+			"shortname": "NCM:NCA",
+			"synonyms": ["NCM:NCR", "NMC:NCA", "NMC:NCR", "INR:NCA", "INR:NCR"],
+			"name": null
+		}
+	},
+	{
+		"model": "abd_database.chemicaltype",
+		"fields": {
+			"shortname": "SynGra",
+			"synonyms": null,
+			"name": "Synthetic graphite"
+		}
+	},
+	{
+		"model": "abd_database.chemicaltype",
+		"fields": {
+			"shortname": "NatGra",
+			"synonyms": null,
+			"name": "Natural graphite"
+		}
+	},
+	{
+		"model": "abd_database.chemicaltype",
+		"fields": {
+			"shortname": "MCMB",
+			"synonyms": null,
+			"name": null
+		}
+	},
+	{
+		"model": "auth.group",
+		"fields": {
+			"name": "Standard_Uploader",
+			"permissions": []
+		}
+	},
+	{
+		"model": "auth.group",
+		"fields": {
+			"name": "Premium_Uploader",
+			"permissions": []
+		}
+	},
+	{
+		"model": "auth.group",
+		"fields": {
+			"name": "ABD_Team",
+			"permissions": []
+		}
+	}
+]

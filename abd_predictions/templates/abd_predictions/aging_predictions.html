@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load detail_tags %}
+{% load crispy_forms_filters %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-9">
+            <h1>{{battery}}</h1>
+        </div>
+    </div>
+
+
+    <section class="pb-4">
+        <div>
+            <section class="pb-4">
+                <div class="row shadow p-3 mb-5 bg-white rounded">
+
+                    <div class="col-12" id="modelEquation">
+                        Model equation: {{ equation }}
+                    </div>
+                    <div class="col-12" id="parameter">
+                        {%  for name,value in parameter %}
+                            {{ name }}: {{ value }} <br>
+                        {%  endfor %}
+                    </div>
+                    <div class="col-12" id="RMSE">
+                        RMSE of fit: {{ RMSE }}
+                    </div>
+                    <div class="col-12" id="RMSE">
+                        Predicted EOL of battery: {{ x_eol }}
+                    </div>
+                </div>
+            <section class="pb-4">
+                <div class="row shadow p-3 mb-5 bg-white rounded">
+
+                    <div class="col-12" id="capacityPlot">
+                        {# plot will go here #}
+                    </div>
+                </div>
+
+{#                <div class="row shadow p-3 mb-5 bg-white rounded">#}
+{#                    <div class="row ">#}
+{#                        <div class="col-12 border-bottom ">#}
+{#                            <h2>Tests</h2>#}
+{##}
+{#                        </div>#}
+{#                    </div>#}
+{##}
+{#                    <div class="row gy-2">#}
+{#                        <table class="table table-responsive table-striped" id="tests">#}
+{#                            <thead>#}
+{#                            <tr>#}
+{#                                <th scope="col">Cell-Test ID</th>#}
+{#                                <th scope="col">Type</th>#}
+{#                                <th scope="col">Dataset</th>#}
+{#                                <th scope="col">Start date</th>#}
+{#                                <th scope="col">Number of cycles</th>#}
+{#                                <th scope="col">Temperature</th>#}
+{#                                <th scope="col">Charge C-rates</th>#}
+{#                                <th scope="col">Discharge C-rates</th>#}
+{#                            </tr>#}
+{#                            </thead>#}
+{#                            <tbody>#}
+{#                            {% for celltest in cycling_tests %}#}
+{#                            <tr>#}
+{#                                <td>#}
+{#                                    {% if celltest == cycling_tests.0 %}#}
+{#                                    <input checked class="form-check-input" id={{celltest.id}}#}
+{#                                           name="CyclingTest" type="radio" value={{celltest.id}}>#}
+{#                                    {% else %}#}
+{#                                    <input class="form-check-input" id={{celltest.id}} name="CyclingTest"#}
+{#                                           type="radio" value={{celltest.id}}>#}
+{#                                    {% endif %}#}
+{#                                    <label class="form-check-label" for={{celltest.id}}>{{forloop.counter}}</label>#}
+{#                                </td>#}
+                                {# TODO add link/popover to test details#}
+{#                                <td><a href="{% url 'abd_db:cycling_test_detail' celltest.id %}">Cycling</a></td>#}
+                                {# TODO add link/popover to dataset details#}
+{#                                <td>{{celltest.cellTest.dataset}}</td>#}
+{#                                <td>{{celltest.cellTest.date}}</td>#}
+{#                                <td>{{celltest.aggdata_set.count}}</td>#}
+{#                                <td>{{celltest.ave_temp}}</td>#}
+{#                                <td>{{celltest.charge_c_rates}}</td>#}
+{#                                <td>{{celltest.discharge_c_rates}}</td>#}
+{#                            </tr>#}
+{#                            {% for eis_test in cell_test.eistest_test_type.all %}#}
+{#                            <tr>#}
+{#                                <td>{{cell_test.id}}</td>#}
+{#                                <td><a href="{% url 'abd_db:eis_test_detail' eis_test.id %}">{% get_test_type#}
+{#                                    eis_test %}</a></td>#}
+{#                                <td>{{eis_test.cellTest.equipment}}</td>#}
+{#                                <td>{{eis_test.cellTest.date}}</td>#}
+{#                                <td>{{eis_test.cellTest.author}}</td>#}
+{#                            </tr>#}
+{#                            {% endfor %}#}
+{#                            {% endfor %}#}
+{##}
+{#                            </tbody>#}
+{#                        </table>#}
+{#                    </div>#}
+{#                </div>#}
+            </section>
+        </div>
+        <div>
+            <section class="pb-4">
+                <div class="row shadow p-3 mb-5 bg-white rounded">
+
+                    <div class="col-12" id="residualPlot">
+                        {# plot will go here #}
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+
+
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'abd_database/js/plotting.js' %}"></script>
+
+
+<script>
+    var graphDiv = document.getElementById('capacityPlot')
+    var graphDiv2 = document.getElementById('residualPlot')
+
+    capacityPlot(graphDiv, {{ x }}, {{ cap_chg }}, {{ cap_dis }}, '{{ x_label }}')
+    updatePredictions(graphDiv, {{ xpred }}, {{ predictions }}, {{ eol }})
+    residualPlot(graphDiv2, {{ x_fit }}, {{ residuals }}, {{ baseline }}, '{{ x_label }}')
+
+</script>
+
+
+
+{% endblock js %}

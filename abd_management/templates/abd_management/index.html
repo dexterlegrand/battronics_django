@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <h1 class="display-4 text-center">Welcome to the Automated Battery Database</h1>
+
+    <div class="container m-5">
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            <div class="col">
+                <div class="card">
+                      <div class="card-body">
+                        <h5 class="card-title">Battery database</h5>
+                        <p class="card-text">Collection of battery aging data sets from various sources</p>
+                        <a class="btn btn-primary" href="{% url 'abd_db:index' 0 %}" role="button">View</a>
+                      </div>
+                </div>
+            </div>
+
+            <div class="col">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Lifetime predictions</h5>
+                <p class="card-text">Use our algorithms to predict the lifetime of your battery</p>
+                <a class="btn btn-primary disabled" href="#" role="button">Start</a>
+              </div>
+            </div>
+            </div>
+
+        </div>
+    </div>
+    </div>
+{% endblock %}

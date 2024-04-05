@@ -1,0 +1,11 @@
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+$primary: $indigo;
+
+$theme-colors: (
+  "primary": $primary
+);
+
+$link-color: $primary;
+
+@import "../node_modules/bootstrap/scss/bootstrap";

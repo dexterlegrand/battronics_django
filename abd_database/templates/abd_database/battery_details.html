@@ -1,0 +1,594 @@
+{% extends 'base.html' %}
+{% load detail_tags %}
+{% load static %}
+{% load crispy_forms_filters %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-9">
+            <h1>{{battery}}</h1>
+        </div>
+
+        <div class="col-3">
+            <!-- Button trigger modal -->
+            <button class="btn btn-primary" data-bs-target="#exampleModal" data-bs-toggle="modal" type="button">
+                Show specifications
+            </button>
+            {% if user.is_authenticated %}
+                {% if has_tests %}
+            <a href="{% url 'abd_predictions:prediction' battery.id %}" class="btn btn-primary" tabindex="-1" role="button" aria-disabled="true">Predictions</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    {# TODO reformat spec display to table #}
+    <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="exampleModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{battery}}: Specifications </h5>
+                    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="card-header pt-1 pb-1">
+                                    Anode Chemical Type
+                                </div>
+                                <div class="card-body pt-1 pb-1">
+                                    <p class="card-text">{{battery.get_chemtype_and_proportion}} </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="card-header pt-1 pb-1">
+                                    Cathode Chemical Type
+                                </div>
+                                <div class="card-body pt-1 pb-1">
+                                    <p class="card-text">{{battery.battery_type.get_chemtype_and_proportion}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-3">
+                            <div class="card">
+                                <div class="card-header pt-1 pb-1">
+                                    Battery Format
+                                </div>
+                                <div class="card-body pt-1 pb-1">
+                                    <p class="card-text" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title={{battery.battery_type.content_object.get_metadata}}>{{battery.battery_type.content_object}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="card">
+                                <div class="card-header pt-1 pb-1">
+                                    Specific Type
+                                </div>
+                                <div class="card-body pt-1 pb-1">
+                                    <p class="card-text">{{battery.battery_type.specific_type}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="card">
+                                <div class="card-header pt-1 pb-1">
+                                    Supplier
+                                </div>
+                                <div class="card-body pt-1 pb-1">
+                                    <p class="card-text" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title={{battery.battery_type.supplier.get_metadata}}>{{battery.battery_type.supplier}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="card">
+                                <div class="card-header pt-1 pb-1">
+                                    Theoretical Capacity
+                                </div>
+                                <div class="card-body pt-1 pb-1">
+                                    <p class="card-text">{{battery.battery_type.theoretical_capacity}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-3">
+                            <div class="card">
+                                <div class="card-header pt-1 pb-1">
+                                    Weight
+                                </div>
+                                <div class="card-body pt-1 pb-1">
+                                    <p class="card-text">{{battery.weight}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="card">
+                                <div class="card-header pt-1 pb-1">
+                                    Nominal Voltage
+                                </div>
+                                <div class="card-body pt-1 pb-1">
+                                    <p class="card-text">{{battery.vnom}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="card">
+                                <div class="card-header pt-1 pb-1">
+                                    Minimal Voltage
+                                </div>
+                                <div class="card-body pt-1 pb-1">
+                                    <p class="card-text">{{battery.vmin}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="card">
+                                <div class="card-header pt-1 pb-1">
+                                    Maximal Voltage
+                                </div>
+                                <div class="card-body pt-1 pb-1">
+                                    <p class="card-text">{{battery.vmax}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2 mb-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header pt-1 pb-1">
+                                    Comments
+                                </div>
+                                <div class="card-body pt-1 pb-1">
+                                    <p class="card-text">{{battery.comments}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="pb-4">
+        <!-- Tab Navigation -->
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a aria-controls="cycles" aria-selected="true" class="nav-link active" data-bs-toggle="tab"
+                   href="#cycles"
+                   id="cycles-tab" role="tab">
+                    Capacity vs. Cycles</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a aria-controls="capacity" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#capacity"
+                   id="capacity-tab" role="tab">
+                    Capacity vs. Voltage</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a aria-controls="eis" aria-selected="false" class="nav-link disabled" data-bs-toggle="tab" href="#eis"
+                   id="eis-tab" role="tab">EIS</a>
+            </li>
+            {% if perms.abd_management.can_upload %}
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    <button id="upload" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Upload additional tests" data-bs-toggle="modal" data-bs-target="#upload_modal">
+                        <i class="fa fa-upload fa-lg" aria-hidden="true"></i>
+                    </button>
+                </li>
+            </ul>
+            {% endif %}
+
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div aria-labelledby="cycles-tab" class="tab-pane fade show active" id="cycles" role="tabpanel">
+                <section class="pb-4">
+                    <div class="row shadow p-3 mb-5 bg-white rounded">
+
+                        <div class="col-12" id="capacityPlot">
+                            {# plot will go here #}
+                        </div>
+                    </div>
+
+                    <div class="row shadow p-3 mb-5 bg-white rounded">
+                        <div class="row border-bottom">
+                            <div class="col-11">
+                                <h2>Tests</h2>
+                            </div>
+                            {% if has_tests %}
+                            <div class="col-1">
+                                <a id="download1" class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="top" title="Export cycling data">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div id="msg1" class="alert alert-success d-none" role="alert">
+                    </div>
+
+                        <div class="row gy-2">
+                            <table class="table table-responsive table-striped" id="tests">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Cell-Test ID</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Dataset</th>
+                                    <th scope="col">Start date</th>
+                                    <th scope="col">Number of cycles</th>
+                                    <th scope="col">Temperature</th>
+                                    <th scope="col">Charge C-rates</th>
+                                    <th scope="col">Discharge C-rates</th>
+                                    {% if cycling_tests|has_uploaded:request.user == True %}
+                                    <th scope="col">Action</th>
+                                    {% endif %}
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for celltest in cycling_tests %}
+                                <tr>
+                                    <td>
+                                        {% if celltest == cycling_tests.0 %}
+                                        <input checked class="form-check-input" id={{celltest.id}}
+                                               name="CyclingTest" type="radio" value={{celltest.id}}>
+                                        {% else %}
+                                        <input class="form-check-input" id={{celltest.id}} name="CyclingTest"
+                                               type="radio" value={{celltest.id}}>
+                                        {% endif %}
+                                        <label class="form-check-label" for={{celltest.id}}>{{forloop.counter}}</label>
+                                    </td>
+                                    {# TODO add link/popover to test details#}
+                                    <td><a href="{% url 'abd_db:cycling_test_detail' celltest.id %}">Cycling</a></td>
+                                    {# TODO add link/popover to dataset details#}
+                                    <td>{{celltest.cellTest.dataset}}</td>
+                                    <td>{{celltest.cellTest.date}}</td>
+                                    <td>{{celltest.aggdata_set.count}}</td>
+                                    <td>{{celltest.ave_temp}}</td>
+                                    <td>{{celltest.charge_c_rates}}</td>
+                                    <td>{{celltest.discharge_c_rates}}</td>
+                                    {% if request.user == celltest.cellTest.file.batch.user %}
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <!-- TODO: implement better confirmation, could be with jquery.dialog or even better-->
+                                        <td><button onclick="return confirm('Are you sure you want to delete a test? \nThis is permanent and can not be undone!');" name="delete-test" value="{{celltest.cellTest.id}}" class="btn btn-danger btn-sm rounded-0" type="submit" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button></td>
+                                    </form>
+                                    {% endif %}
+                                </tr>
+                                {% for eis_test in cell_test.eistest_test_type.all %}
+                                <tr>
+                                    <td>{{cell_test.id}}</td>
+                                    <td><a href="{% url 'abd_db:eis_test_detail' eis_test.id %}">{% get_test_type eis_test %}</a></td>
+                                    <td>{{eis_test.cellTest.equipment}}</td>
+                                    <td>{{eis_test.cellTest.date}}</td>
+                                    <td>{{eis_test.cellTest.author}}</td>
+                                </tr>
+                                {% endfor %}
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div aria-labelledby="capacity-tab" class="tab-pane fade" id="capacity" role="tabpanel">
+                <div class="row shadow p-3 mb-5 bg-white rounded">
+
+                    <div class="col-12">
+                        <div id="plotWrap">
+                            <div id="capacityVoltagePlot" style="height: 400px">
+                                {# plot will go here #}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row shadow p-3 mb-5 bg-white rounded">
+                    <div class="row">
+                        <div class="col-11">
+                            <button class="btn btn-primary" id="uncheck_checkbox" type="button">Uncheck all</button>
+                            <input id="interval" min="1" step="10" style="width: 4em" type="number" value="50">
+                            <button class="btn btn-primary" id="check_interval" type="button">Check interval</button>
+                            <button class="btn btn-primary" disabled id="send_checkbox" type="button">Plot selected cycles
+                        </button>
+                        </div>
+                        {% if has_tests %}
+                        <div class="col-1">
+                            <a class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="top"
+                               title="Export raw data"
+                               data-bs-toggle="modal" data-bs-target="#donwloadwarning">
+                                <i class="fas fa-download"></i>
+                            </a>
+                        </div>
+                        {% endif %}
+
+                        <p id="error_string"></p>
+                    </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="donwloadwarning" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            Download of raw data can be time-consuming. Please be patient!
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Dismiss</button>
+                            <button id="download2" class="btn btn-primary" type="button">
+                              <span class="spinner-border spinner-border-sm visually-hidden" role="status" aria-hidden="true"></span>
+                              <span class="mybutton">Download</span>
+                            </button>
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                    <div id="msg" class="alert alert-success d-none" role="alert">
+
+                    </div>
+
+                    <table class="table table-responsive table-striped" id="cyclestable">
+                        <thead>
+                        <tr>
+                            <th scope="col">Cycle</th>
+                            <th scope="col">Charge capacity</th>
+                            <th scope="col">Dicharge capacity</th>
+                            <th scope="col">Charge C-rate</th>
+                            <th scope="col">Discharge C-rate</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div aria-labelledby="eis-tab" class="tab-pane fade" id="eis" role="tabpanel">EIS</div>
+        </div>
+
+    </section>
+    <!-- Upload Modal -->
+    <div class="modal fade" id="upload_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Upload tests</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form id="form-container" action="extend_tests" enctype="multipart/form-data" method="POST">
+                  {% csrf_token %}
+                  {{upload_test_formset.management_form}}
+                  {% for upload_form in upload_test_formset %}
+                  <div class="upload-form">
+                      {{upload_form|crispy}}
+                      <hr class="solid" style="border-top:3px solid #bbb">
+                  </div>
+                  {% endfor %}
+                  <button id="add-form" type="button" class="btn btn-primary">Add another Test</button>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-light" data-bs-dismiss="modal">Dismiss</button>
+                      <button id="submit_button" type="submit" class="btn btn-primary">Save</button>
+                  </div>
+              </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</div>
+{% endblock %}
+{% block js %}
+<script src="{% static 'abd_database/js/vendors/download.js' %}" type="text/javascript"></script>
+<script src="{% static 'abd_database/js/extendTests.js' %}" type="text/javascript"></script>
+
+<script>
+        $(document).ready(function() {
+            $('#tests').DataTable();
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            })
+        } );
+
+
+</script>
+
+<script>
+        Plotly.newPlot("capacityPlot", {{ graph | safe }})
+
+
+</script>
+
+    <script type="text/javascript">
+        $("#download2").on("click", function() {
+            var geturl;
+            var button;
+            button = $(this)
+            button.children("span.mybutton").html("Fetching...")
+            button.prop("disabled",true)
+            button.children("span:first").removeClass("visually-hidden")
+            geturl = $.ajax({
+                type: 'GET',
+                url: "{% url 'abd_db:download_raw' battery.pk %}",
+                success:download.bind(true,'text/csv', "{{battery.name}}_raw.csv"),
+            }).done(function(){
+                    button.children("span.mybutton").html("Downloading...")
+                    button.closest(".modal").modal("toggle")
+                    var msg="File successfully sent to download!";
+                    $("#msg").html(msg).removeClass("d-none")
+                    button.children("span.mybutton").html("Download")
+                    button.prop("disabled",false)
+                    button.children("span:first").addClass("visually-hidden")
+            })
+        });
+
+        $("#download1").on("click", function() {
+            var geturl;
+            geturl= $.ajax({
+                type: 'GET',
+                url: "{% url 'abd_db:download_aggdata' battery.pk %}",
+                success:download.bind(true,'text/csv', "{{battery.name}}_cycles.csv"),
+
+            }).done(function (){
+                var msg="File successfully sent to download!";
+                $("#msg1").html(msg).removeClass("d-none")
+            })
+        });
+
+
+    </script>
+<!--TODO: make radiobutton on change not onclick-->
+    <script type="text/javascript">
+        window.CSRF_TOKEN = "{{ csrf_token }}";
+
+        var current_value = 0;
+        var first_cap_loaded = true;
+
+        {#function RadioClick(myradio)#}
+        $("[name='CyclingTest']").on("click", function() {
+            $("[name='CyclingTest']").prop("checked", false);
+            $(this).prop("checked", true);
+            current_value = this.value;
+
+            {#var serializedData = myradio.form.serialize();#}
+
+            if (this.checked) {
+                $.ajax({
+                    type:'POST',
+                    url:"{% url 'abd_db:battery_detail' battery.id %}",
+                    data: {csrfmiddlewaretoken: window.CSRF_TOKEN,
+                    selection: current_value,
+                    tab: 'cycles-tab'},
+
+                    success:function(json){
+                        Plotly.newPlot("capacityPlot", json.graph)
+                    },
+                    error : function(xhr,errmsg,err) {
+                    console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                    }
+                    });
+            }
+        });
+
+        var selected = [];
+        var allPages;
+        first_cap_loaded = false;
+        {#TODO selection cyles to display#}
+        $("#send_checkbox").click(function() {
+            $(":checkbox:checked", allPages).each(function() {
+                    selected.push(parseInt($(this).val()));
+                 });
+            cycle_request();
+        });
+        $(document).ready(function(){
+
+
+            $('.nav-tabs a').on('shown.bs.tab', function(event){
+                event.target;         // active tab
+                event.relatedTarget;  // previous tab
+
+                tab_name = event.target.id;
+                cycle_request();
+            })
+        });
+
+        {#spinner = '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"></div></div>'#}
+        function cycle_request(){
+                if(tab_name === "capacity-tab"){
+                    var tbody = $("#cyclestable > tbody")
+                    g = $("#capacityVoltagePlot")
+                    Plotly.purge("capacityVoltagePlot")
+                    $("#plotWrap").addClass("d-flex justify-content-center")
+                    g.css('width', '400px')
+                    g.addClass("spinner-border text-primary")
+                    $.ajax({
+                        type:'POST',
+                        url:"{% url 'abd_db:battery_detail' battery.id %}",
+                        data: {
+                            csrfmiddlewaretoken: window.CSRF_TOKEN,
+                            tab: tab_name,
+                            battery_pk: {{battery.id}},
+                            selected_cycles: selected
+                        },
+                        success:function(json){
+                            if(first_cap_loaded === false){
+                                var agg_data = json.agg_data;
+                                for(var i = 0; i < agg_data.length ; i++){
+                                    html = '<tr><td><div class="form-check">'+
+                                            '<input class="form-check-input" name="Cycle" type="checkbox" value='+agg_data[i][0] + ' id='+ agg_data[i].id+'>'+
+                                            '<label class="form-check-label" for='+ agg_data[i][0] + '>'+
+                                            +agg_data[i][2]+'</label></div></td>' +
+                                            {#'<td>'+agg_data[i].start_date+'</td>' + too slow#}
+                                            '<td>'+Math.round((agg_data[i][3] + Number.EPSILON) * 100) / 100+'</td>' +
+                                            '<td>'+Math.round((agg_data[i][4] + Number.EPSILON) * 100) / 100+'</td>' +
+                                            '<td>'+agg_data[i][6]+'</td>' +
+                                            '<td>'+agg_data[i][7]+'</td></tr>'
+                                    ;
+                                    tbody.append(html)
+                                    $(":checkbox:first").prop("checked", true)
+                                }
+                                oTable = $('#cyclestable').DataTable({
+                                pageLength: 100,
+                                lengthMenu: [100, 250, 500, 1000]
+                                });
+                                first_cap_loaded = true;
+                                 allPages = oTable.rows().nodes();
+                            }
+                            g.removeClass("spinner-border text-primary")
+                            $("#plotWrap").removeClass("d-flex justify-content-center")
+                            g.css('width', '100%')
+                            Plotly.newPlot("capacityVoltagePlot", json.graph)
+                            $("#send_checkbox").prop("disabled", true);
+                        },
+                        error : function(xhr,errmsg,err) {
+                        console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                        }
+                    });
+            };
+            selected = [];
+        }
+        $(document).on('change', ':checkbox', function() {
+            if($(":checkbox:checked", allPages).length != 0) {
+                $("#send_checkbox").prop("disabled", false);
+                $("#error_string").text("");
+            }else{
+                $("#error_string").text("Select atleast one element").css("color", "red");
+            }
+        });
+        $("#uncheck_checkbox").click(function() {
+            $(":checkbox", allPages).prop("checked", false);
+            $("#error_string").text("Select atleast one element").css("color", "red");
+        });
+        $("#check_interval").click(function() {
+            $(":checkbox", allPages).prop("checked", false);
+            var result = $.grep($(":checkbox", allPages), function(element, index) {
+                return (index) % parseInt($("#interval").val()) == 0;
+            });
+            $.each(result, function() {
+                $(this).prop("checked", true);
+                $("#send_checkbox").prop("disabled", false);
+            });
+            $("#error_string").text("");
+        });
+
+
+</script>
+
+
+{% endblock js %}

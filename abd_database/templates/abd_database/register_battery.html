@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+<div class="container">
+    <h1>Test register Battery</h1>
+
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form|crispy }}
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    <a id="add_supplier" href="#" onclick="openPopup()">Add Supplier</a>
+
+    {{form.non_field_errors}}
+
+</div>
+
+{% endblock %}
+{% block js %}
+<script>
+    function openPopup() {
+        window.open("/database/register_supplier", "popup", "width=500,height=500");
+    }
+
+    $(document).ready(function (){
+        $("#div_id_cylinder_type").hide()
+        $("#div_id_prisma_type").hide()
+        $("#div_id_supplier").append($("#add_supplier"))
+    })
+
+    $("#id_battery_type").on('change', function (e){
+        let selectedType = $(this).find('option:selected').text();
+        switch (selectedType) {
+            case "Prisma":
+                $("#div_id_prisma_type").show();
+                $("#id_prisma_type").prop("required", true);
+                $("#id_cylinder_type").prop("required", false);
+                $("#div_id_cylinder_type").hide();
+                $("#div_id_cylinder_type option:selected").prop("selected", false);
+                break;
+            case "Cylinder":
+                $("#div_id_cylinder_type").show();
+                $("#id_cylinder_type").prop("required", true);
+                $("#id_prisma_type").prop("required", false);
+                $("#div_id_prisma_type").hide();
+                $("#div_id_prisma_type option:selected").prop("selected", false);
+                break;
+            default:
+                $("#div_id_prisma_type").hide()
+                $("#div_id_prisma_type option:selected").prop("selected", false);
+                $("#id_prisma_type").prop("required", true);
+                $("#div_id_cylinder_type").hide()
+                $("#div_id_cylinder_type option:selected").prop("selected", false);
+                $("#id_cylinder_type").prop("required", true);
+        }
+    })
+</script>
+{% endblock js %}

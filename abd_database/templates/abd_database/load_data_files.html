@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load queue_tags %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1> Upload dataset </h1>
+            <p> Select one or multiple .h5-Files in correct structure to upload</p>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-3">
+            <form id="fileInput" action="upload_data" enctype="multipart/form-data" method="POST">
+                {% csrf_token %}
+                 <div class="form-group">
+                  {{ form|crispy }}
+                </div>
+                <button id="submit_button" type="submit" class="btn btn-primary">Save</button>
+            </form>
+            <p id="selected_size"></p>
+            <p id="error_message"></p>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    const input = document.getElementById('id_file_field');
+
+    input.addEventListener('change', (event) => {
+        var size = 0;
+        for (const file of event.target.files) {
+            size += file.size
+        }
+        $("#selected_size").text(parseInt(size/1000/1000).toLocaleString() + "/" + ({% get_max_batch_size %}).toLocaleString() + "mb selected");
+        if ((size/1000/1000) > {% get_max_batch_size %}){
+            $("#error_message").text("Selected files too large").css('color', 'red');
+            $('#submit_button').attr("disabled", true);
+        }else{
+            $("#error_message").text("");
+            $('#submit_button').attr("disabled", false);
+        }
+    });
+</script>
+{% endblock %}

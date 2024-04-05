@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load duplicate_tags %}
+{% block content %}
+<style>
+    .parent > button {
+        display: inline;
+        }
+
+</style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+{% if batch_with_duplicates %}
+    {% if batch_with_duplicates.0 %}
+        <h1>One or more files got detected as a duplicate</h1>
+    {% if batch_with_duplicates.1 %}
+        {% if batch_with_duplicates.1.1 %}
+            <h2>Duplicates that are found in the queue</h2>
+            {% for upload_file in batch_with_duplicates.0.uploadfile_set.all %}
+                {% match_file_to_queue_duplicates upload_file batch_with_duplicates.1.1 as queue_duplicates %}
+                {% if queue_duplicates %}
+                    {% widthratio upload_file.kb 1000 1 as size %}
+                    <!--  TODO: add some more information about files in queue (maybe position in Q)  -->
+                    <p data-bs-toggle="collapse" data-bs-target="#qfiles{{forloop.counter0}}" aria-expanded="false" aria-controls="qfiles{{forloop.counter0}}">{{upload_file.file_name}}, {{size}}mb</p>
+                    <div class="collapse" id="qfiles{{forloop.counter0}}">
+                        <ul>
+                            {% for file in queue_duplicates %}
+                            <li>{{file}}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+            {% endfor %}
+        {% endif %}
+        {% if batch_with_duplicates.1.0 %}
+            <h2>Duplicates that are found in the database</h2>
+            {% for upload_file in batch_with_duplicates.0.uploadfile_set.all %}
+                {% get_batteries_from_pk upload_file batch_with_duplicates.1.0 as db_duplicates %}
+                {% if db_duplicates %}
+                {% widthratio upload_file.kb 1000 1 as size %}
+                    <p data-bs-toggle="collapse" data-bs-target="#dbfiles{{forloop.counter0}}" aria-expanded="false" aria-controls="dbfiles{{forloop.counter0}}">{{upload_file.file_name}}, {{size}}mb</p>
+                    <div class="collapse" id="dbfiles{{forloop.counter0}}">
+                        <ul>
+                            {% for battery in db_duplicates %}
+                            <li><a href="{% url 'abd_db:battery_detail' battery.id %}" target="_blank">{{battery}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+    {% endif %}
+{% endif %}
+    <form action="{% url 'abd_db:upload_duplicates' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden", name="batch_id", id="batch_id_field" value="{{batch_with_duplicates.0.pk}}">
+        <p>Do you really want to upload these files?</p>
+        <button type="reset" onclick="history.back()">Cancel</button>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,46 @@
+[
+	{
+		"model": "abd_management.organisation",
+		"pk": 1,
+		"fields": {
+			"name": "dummy-organisation"
+		}
+	},
+	{
+	"model": "abd_management.user",
+	"pk": 1,
+	"fields": {
+		"username": "dummy-user",
+		"company_id": 1
+	}
+	},
+	{
+		"model": "abd_database.dataset",
+		"pk": 1,
+		"fields": {
+			"name": "dummy-dataset",
+			"organisation": "dummy-organisation",
+			"owner_id": 1
+		}
+	},
+	{
+		"model": "abd_database.uploadbatch",
+		"pk": 1,
+		"fields": {
+			"user": 1,
+			"extractor_type": "UNKNOWN",
+			"dataset": 1
+		}
+	},
+	{
+		"model": "abd_database.uploadfile",
+		"pk": 1,
+		"fields": {
+			"batch": 1,
+			"file_name": "dummy-file",
+			"kb": 0,
+			"status": "Initial",
+			"time": "1970-01-01 09:00:00"
+		}
+	}
+]

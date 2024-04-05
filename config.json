@@ -1,0 +1,13 @@
+{
+"db_name": "abd_dev",
+"db_user": "abd_user",
+"db_pwd": "test",
+"db_admin_user": "abd_user",
+"db_admin_pwd": "test",
+"db_host": "localhost",
+"db_port": 5432,
+"secret_key":"abc",
+"debug": true,
+"db_engine": "timescale.db.backends.postgresql",
+"db_allowed_hosts": ["127.0.0.1", "localhost" ]
+}
